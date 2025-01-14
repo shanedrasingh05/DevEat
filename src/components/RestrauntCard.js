@@ -1,6 +1,7 @@
 import { IMG_CDN_URL } from "./Config.js";
 import { useContext } from "react";
 import userContext from "../utils/userContext.js";
+
 const RestrauntCard = ({
   name,
   cuisines,

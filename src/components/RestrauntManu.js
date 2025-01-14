@@ -15,13 +15,15 @@ const RestrauntManu = () => {
 
   const restaurant = useRestaurant(id);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const handleAddItem = () => {
-    dispatch(addItem("Grapes"))
+  const addFoodItem = (item) => {
+    dispatch(addItem(item));
   };
 
-
+  // const handleAddItem = () => {
+  //   dispatch(addItem("Grapes"))
+  // };
 
   if (restaurant == null) {
     return <Shimmer />;
@@ -42,7 +44,7 @@ const RestrauntManu = () => {
   // w-56 p-2 m-2
 
   return (
-    <div className="flex ">
+    <div className=" ">
       <div className="w-56 p-2 m-2">
         <h1>Restaurant id: {id}</h1>
         <h2>{name}</h2>
@@ -67,21 +69,39 @@ const RestrauntManu = () => {
         <ul>
           {itemInfo.length > 0 && (
             <>
-              {itemInfo?.map((item, idx) => (
+              {itemInfo?.map((items, idx) => (
                 <Fragment key={idx + "menu"}>
-                  {item?.card?.card?.title && (
-                    <li>
-                      {item?.card?.card?.title} 
+                  {items?.card?.card?.itemCards && (
+                    <div>
+                      <li className="font-bold">{items?.card?.card?.title}</li>
+                      {items?.card?.card?.itemCards && (
+                        <div>
+                          {items?.card?.card?.itemCards?.map((item, idx) => (
+                            <div key={idx + "item"}>
+                              <p>{item?.card?.info?.name}</p>
+                              {item?.card?.info?.price && (
+                                <p>{item?.card?.info?.price / 100}</p>
+                              )}
+                              {item?.card?.info?.defaultPrice && (
+                                <p>{item?.card?.info?.defaultPrice / 100}</p>
+                              )}
+                              <p>{item?.card?.info?.description}</p>
 
-                      <button className="p-1 bg-green-50 rounded-md" onClick={(
-
-                      ) => addFoodItem(item)} >
-
-                        add</button>
-
-                    </li>
+                              <img
+                                src={IMG_CDN_URL + item?.card?.info?.imageId}
+                              />
+                              <button
+                                className="p-1 bg-green-50 rounded-md"
+                                onClick={() => addFoodItem(item?.card?.info)}
+                              >
+                                add
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   )}
-                  {item?.card?.card?.itemCards && <div></div>}
                 </Fragment>
               ))}
             </>
