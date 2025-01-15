@@ -4,9 +4,11 @@ const Footer = () => {
   const { user } = useContext(userContext);
 
   return (
-    <h4 className="p-10 m-10">
-      This site developed By {user.name} - {user.email};
-    </h4>
+    <div>
+      <h4 className="p-10 m-10 ">
+        This site developed By {user.name} - {user.email};
+      </h4>
+    </div>
   );
 };
 

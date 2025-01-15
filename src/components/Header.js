@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import logo from "../assest/new.png";
+import logo from "../assest/logo.png";
 import { Link } from "react-router-dom";
 import userContext from "../utils/userContext";
 import { useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import store from "../utils/store";
 
 const Title = () => (
   <a href="/">
-    <img className="h-14 py-2 rounded-full ..." alt="logo" src={logo} />
+    <img className="h-20 sm:h-24 py-2 rounded-full" alt="logo" src={logo} />
   </a>
 );
 
@@ -20,15 +20,11 @@ const Header = () => {
 
   const { user } = useContext(userContext);
 
-  const cartItems = useSelector(store => store.cart.items);
+  const cartItems = useSelector((store) => store.cart.items);
   console.log(cartItems);
 
-
-
-
-
   return (
-    <div className="flex justify-between bg-gray-100 shadow-lg ">
+    <div className="flex justify-between items-center bg-gray-100 shadow-lg pl-4 pr-8">
       <Title />
       <div className="nav-items">
         <ul className="flex py-6 ">

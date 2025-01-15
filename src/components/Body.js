@@ -12,7 +12,7 @@ const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [filteredRestaurants, setfilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState(""); // returns, function to update variable
-  // console.log(restaurants)
+  console.log(filteredRestaurants);
 
   const {user, setUser} = useContext(userContext);
 
