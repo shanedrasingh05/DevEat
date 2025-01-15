@@ -20,7 +20,7 @@ const RestrauntCard = ({
       <h3 className="card-item">{cuisines.join(",")}</h3>
       <h4>{sla?.lastMileTravelString}</h4>
       <h4>{sla?.slaString}</h4>
-      <h4>{avgRatingString}</h4>
+      <h4>{avgRatingString} Stars</h4>
 
       {/* <h5 className="font-bold">{user.name} - {user.email} </h5> */}
     </div>
