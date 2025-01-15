@@ -54,7 +54,7 @@ const Header = () => {
         </ul>
       </div>
 
-      {user.name}
+      {/* {user.name} */}
 
       {isloggedIn ? (
         <button onClick={() => setIsloggedIn(false)}>LogOut</button>

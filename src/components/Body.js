@@ -76,7 +76,7 @@ const Body = () => {
         >
           Search
         </button>
-
+{/* 
             <input value={user.name} onChange={
                 e => setUser({
                   ...user,
@@ -94,7 +94,7 @@ const Body = () => {
                 })
             }>
              </input>
-
+ */}
       </div>
 
       <div className="flex flex-wrap bg-gray-100 shadow-lg ">

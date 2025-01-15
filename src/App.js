@@ -52,7 +52,9 @@ const AppLayout = () => {
           <Header />
           <Outlet />
           <Footer />
+
         </userContext.Provider>
+        
       </Provider>
     </>
   );

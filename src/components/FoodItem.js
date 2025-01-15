@@ -7,7 +7,7 @@ const FoodItem = (item) => {
   // description,
   // defaultPrice,
   // lastMileTravelString,
-  // } =item.item
+  // } =item.item;
 
   const { name, price, defaultPrice, description, imageId } = item.item;
   // const { name ,defaultPrice} = item.item;
@@ -19,14 +19,7 @@ const FoodItem = (item) => {
       <h2 className="font-bold text-xl">{name}</h2>
       <h3>{description}</h3>
       <h4>Rupees: {pricecurr / 100} </h4>
-
-      {/* <h3>{cuisines.join(",")}</h3> */}
-
-      {/* <h4>{lastMileTravelString}</h4> */}
-
-      {/* <h5 className="font-bold">
-        {user.name} - {user.email}{" "}
-      </h5> */}
+      
     </div>
   );
 };

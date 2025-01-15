@@ -85,7 +85,7 @@ const RestrauntManu = () => {
                               {item?.card?.info?.defaultPrice && (
                                 <p>{item?.card?.info?.defaultPrice / 100}</p>
                               )}
-                              <p>{item?.card?.info?.description}</p>
+                              <p>{item?.card?.info?.description / 100}</p>
 
                               <img
                                 src={IMG_CDN_URL + item?.card?.info?.imageId}
