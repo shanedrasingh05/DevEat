@@ -14,7 +14,7 @@ const Body = () => {
   const [searchText, setSearchText] = useState(""); // returns, function to update variable
   console.log(filteredRestaurants);
 
-  const {user, setUser} = useContext(userContext);
+  const { user, setUser } = useContext(userContext);
 
   useEffect(() => {
     // use  API
@@ -55,9 +55,9 @@ const Body = () => {
     <>
       <div className="search-conatiner  p-5 bg-gray-100  my-5 rounded-md ">
         <input
-          type="search"
+          type="Search"
           className="focus:bg-gray-300 m-2 p-2 rounded-full ..."
-          placeholder="Search"
+          placeholder="Search-Restaurants"
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
@@ -76,7 +76,7 @@ const Body = () => {
         >
           Search
         </button>
-{/* 
+        {/* 
             <input value={user.name} onChange={
                 e => setUser({
                   ...user,
