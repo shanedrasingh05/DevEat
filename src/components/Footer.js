@@ -6,7 +6,14 @@ const Footer = () => {
   return (
     <div>
       <h4 className="p-10 m-10 ">
-        This site developed By {user.name} - {user.email};
+        <p className="flex justify-center font-bold">
+          This site is Under Development So Please wait a moment...
+        </p>
+
+
+         
+        <br></br>
+        This site developed By {user.name} - {user.email}
       </h4>
     </div>
   );

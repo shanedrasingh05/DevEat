@@ -1,8 +1,12 @@
-// with options
+
 {
+  // "presets": [["@babel/preset-env", {"targets": {"node": "current"}}]],
+}
+
+// with options
   // "plugins": [ ["transform-remove-console",
   // { "exclude": [ "error", "warn"] }] ]
-}
+
 
 // {
 //   "presets": ["@babel/preset-env"],

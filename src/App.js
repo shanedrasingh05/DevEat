@@ -31,7 +31,7 @@ const AppLayout = () => {
 
   const [user ,setUser] = useState({
     name: "Shanedra Singh",
-    email: "shanedrashingh@gmail.com"
+    email: "shanedrashingh89@gmail.com"
   });
 
 
