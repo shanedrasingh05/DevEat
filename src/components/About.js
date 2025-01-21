@@ -30,12 +30,12 @@ class About extends Component {
     return(
         <div>
             <h1>About Us Page</h1>
-            <userContext.Consumer>
+            {/* <userContext.Consumer>
                 {({user}) =>(
                     <h4 className="font-bold text-xl p-10">
                         {user.name}- {user.email}</h4>
                 )}
-            </userContext.Consumer>
+            </userContext.Consumer> */}
             <p>
                 This is my About page.
             </p>

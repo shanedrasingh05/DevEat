@@ -50,7 +50,9 @@ const Body = () => {
   // }
 
   return filteredRestaurants?.length == 0 ? (
+
     <Shimmer />
+
   ) : (
     <>
       <div className="search-conatiner  p-5 bg-gray-100  my-5 rounded-md ">

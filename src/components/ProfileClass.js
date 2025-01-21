@@ -17,7 +17,7 @@ class Profile extends React.Component{
     async componentDidMount(){
         // This place API calls
 
-        const data = await fetch("https://api.github.com/users/ShanedraSingh");
+        const data = await fetch("https://api.github.com/users/shanedrasingh05");
         const json = await data.json();
         console.log(json);
 
