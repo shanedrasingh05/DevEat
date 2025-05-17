@@ -1,49 +1,69 @@
-
-import { Outlet } from "react-router-dom";
-import ProfileFunctionalComponet from "./Profile.js";
-import Profile from "./ProfileClass";
+import { useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import ProfileClass from "./ProfileClass";
 import React from "react";
-import { Component } from "react";
-import userContext from "../utils/userContext.js";
+import UserContext from "../utils/UserContext";
+import Burger from "../assets/img/Burger_Img.png";
 
-
-
-class About extends Component {
-
-    constructor(props){
-        super(props)
-        
-        // console.log("parant-constructor");
-    }
-
-     componentDidMount(){
-        // best place make API call
-
-
-        // console.log("parant componentDidMount");
-    }
-
-
-
-   render(){
-    console.log("Render")
-    return(
+class About extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log("About Constructor");
+    this.state = {
+      showProfile: false,
+    };
+  }
+  componentDidMount() {
+    console.log("About ComponentDidMount");
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("About ComponentDidUpdate");
+  }
+  componentWillUnmount() {
+    console.log("About ComponentWillUnmount");
+  }
+  render() {
+    console.log("About Render");
+    return (
+      <div className="body-box about-page">
         <div>
-            <h1>About Us Page</h1>
-            {/* <userContext.Consumer>
-                {({user}) =>(
-                    <h4 className="font-bold text-xl p-10">
-                        {user.name}- {user.email}</h4>
-                )}
-            </userContext.Consumer> */}
-            <p>
-                This is my About page.
-            </p>
-            {/* <ProfileFunctionalComponet name = {"Shanedra Singh"} /> */}
-            <Profile />
+          <h1>About Page</h1>
+          <UserContext.Consumer>
+            {({ user }) => (
+              <h4>
+                {user.name} - {user.email}
+              </h4>
+            )}
+          </UserContext.Consumer>
+          {this.state.showProfile ? (
+            <Link
+              to="/about"
+              onClick={() => {
+                this.setState({ showProfile: false });
+              }}
+            >
+              Hide Profile
+            </Link>
+          ) : (
+            <Link
+              to="profile"
+              onClick={() => {
+                this.setState({ showProfile: true });
+              }}
+            >
+              Show Profile
+            </Link>
+          )}
         </div>
-    )
-   }
-};
-
+        <div>
+          {this.state.showProfile ? (
+            <Outlet />
+          ) : (
+            <img className="burger-img" src={Burger} />
+          )}
+        </div>
+      </div>
+    );
+  }
+}
 export default About;

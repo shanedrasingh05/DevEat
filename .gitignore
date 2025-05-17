@@ -1,15 +1,4 @@
-# Ignore parcel cache
-.parcel-cache/
-
-# Ignore build folder
-dist/
-
-# Ignore node modules
 node_modules/
-
-
-
-node_modules/
-.parcel-cache/
-*.node
-*.mdb
+.parcel-cache
+dist
+.babelrc

@@ -1,29 +1,44 @@
-import { useState ,useEffect} from "react";
+import { useState, useEffect, useContext } from "react";
+import { FETCH_MENU_URL } from "../constant";
+import LocationContext from "./LocationContext";
 
-const useRestaurant = (id) =>{
-  const [restaurant, setRestaurant] = useState(null);
+const useRestaurant = (resId) => {
+	const [restaurant, setRestaurant] = useState([]);
+	const { location } = useContext(LocationContext);
+	useEffect(() => {
+		getRestaurantMenu();
+	}, []);
+	const getRestaurantMenu = async () => {
+		try {
+			const data = await fetch(
+				FETCH_MENU_URL +
+					resId +
+					"%26lat=" +
+					location.latitude +
+					"%26lng=" +
+					location.longitude
+			);
+			const json = await data.json();
+			const restInfo = json?.data?.cards?.find((res) =>
+				res?.card?.card["@type"]?.includes("food.v2.Restaurant")
+			);
+			const restOffer = json?.data?.cards?.find((res) =>
+				res?.card?.card?.gridElements?.infoWithStyle["@type"]?.includes(
+					"food.v2.OfferInfoWithStyle"
+				)
+			);
+			const restMenus = json?.data?.cards?.find((res) =>
+				res?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((menu) =>
+					menu?.card?.card["@type"]?.includes("food.v2.ItemCategory")
+				)
+			);
+			setRestaurant({ restInfo, restOffer, restMenus });
+		} catch (err) {
+			console.log(err);
+			setRestaurant(null);
+		}
+	};
+	return restaurant;
+};
 
-  // Get data from API 
-   useEffect(() => {
-     getRestaurantInfo();
-   }, []);
-
-   async function getRestaurantInfo() {
-     const data = await fetch(
-       
-          "https://cors-handlers.vercel.app/api/?url=https%3A%2F%2Fwww.swiggy.com%2Fdapi%2Fmenu%2Fpl%3Fpage-type%3DREGULAR_MENU%26complete-menu%3Dtrue%26catalog_qa%3Dundefined%26submitAction%3DENTER%26restaurantId%3D" +
-            id +
-            "%26lat=28.7040592%26lng=77.1024901"
-
-       // "https://cors-handlers.vercel.app/api/?url=https%3A%2F%2Fwww.swiggy.com%2Fdapi%2Fmenu%2Fpl%3Fpage-type%3DREGULAR_MENU%26complete-menu%3Dtrue%26catalog_qa%3Dundefined%26submitAction%3DENTER%26restaurantId%3D10301%26lat=28.7040592%26lng=77.1024901" + id
-     );
-     const json = await data.json();
-     console.log(json);
-     setRestaurant(json.data);
-   }
-
-  // Return restaurant data
-
-  return restaurant
-}
 export default useRestaurant;

@@ -1,118 +1,265 @@
-import { useState, useEffect, useContext } from "react";
-import RestaurantList from "../../constent";
-import RestrauntCard from "./RestrauntCard";
+import RestaurantCard from "./RestaurantCard";
+import { useContext, useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-import { filterData } from "../utils/helper";
+import useAllRestaurants from "../utils/useAllRestaurants";
+import Search from "./Search";
 import useOnline from "../utils/useOnline";
-import userContext from "../utils/userContext";
-// Props - Propertie
+import RestaurantCollections from "./RestaurantCollections";
+import Filter from "./Filter";
+import {
+	IMG_NOT_FOUND_URL,
+	IMG_OFFLINE_URL,
+	IMG_RESTAURANT_NOT_URL,
+} from "../constant";
+import { handleScrollTop } from "../utils/helper";
+
+window.addEventListener("DOMContentLoaded", function () {
+	window.scrollTo(0, 0);
+});
 
 const Body = () => {
-  const [allRestaurants, setAllRestaurants] = useState([]);
-  const [filteredRestaurants, setfilteredRestaurants] = useState([]);
-  const [searchText, setSearchText] = useState(""); // returns, function to update variable
-  console.log(filteredRestaurants);
+	const [allRestaurants, filteredRestaurants, setFilteredRestaurants] =
+		useAllRestaurants();
+	const [againApiCall, setAgainApiCall] = useState(false);
+	const [extraRestsData, setExtraRestsData] = useState(null);
+	const [showExtraData, setShowExtraData] = useState(true);
 
-  const { user, setUser } = useContext(userContext);
+	useEffect(() => {
+		const handleScroll = () => {
+			const scrollPosition = window.scrollY;
+			const viewportHeight = window.innerHeight;
+			const documentHeight = document.body.scrollHeight;
+			const distanceFromBottom =
+				documentHeight - (scrollPosition + viewportHeight);
+			if (!againApiCall && allRestaurants != null) {
+				if (distanceFromBottom <= 400) {
+					setExtraRestsData([]);
+					setAgainApiCall(true);
+					setTimeout(() => {
+						setExtraRestsData(allRestaurants[7]);
+					}, 2000);
+				}
+			}
+		};
 
-  useEffect(() => {
-    // use  API
-    getRestaurants();
-  }, []);
+		window.addEventListener("scroll", handleScroll);
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, [againApiCall, allRestaurants]);
 
-  async function getRestaurants() {
-    const data = await fetch(
-      "https://cors-handlers.vercel.app/api/?url=https%3A%2F%2Fwww.swiggy.com%2Fdapi%2Frestaurants%2Flist%2Fv5%3Fis-seo-homepage-enabled%3Dtrue%26page_type%3DDESKTOP_WEB_LISTING%26lat=28.7040592%26lng=77.1024901"
-    );
-    const json = await data.json();
-    console.log(json);
-
-    // optional chaining
-    setAllRestaurants(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setfilteredRestaurants(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    console.log(json?.data?.cards[1]?.card);
-  }
-
-  const isOnline = useOnline();
-  if (!isOnline) {
-    return <h1>😱 offline, please check internet connection!!</h1>;
-  }
-
-  if (!allRestaurants) return null;
-
-  // if (filteredRestaurants?.length == 0) {
-  //   return "No Restaurant match your filter!";
-  // }
-
-  return filteredRestaurants?.length == 0 ? (
-
-    <Shimmer />
-
-  ) : (
-    <>
-      <div className="search-conatiner  p-5 bg-gray-100  my-5 rounded-md ">
-        <input
-          type="Search"
-          className="focus:bg-gray-300 m-2 p-2 rounded-full ..."
-          placeholder="Search-Restaurants"
-          value={searchText}
-          onChange={(e) => {
-            setSearchText(e.target.value);
-          }}
-        />
-        <button
-          className="p-2 m-2 bg-purple-900 hover:bg-gray-400 text-white rounded-md "
-          // onClick={() => {
-          // const data = filterData(searchText, allRestaurants);
-          // console.log(data)
-          // setAllRestaurants(data);
-          // }}
-          onClick={() =>
-            filterData(searchText, allRestaurants, setfilteredRestaurants)
-          }
-        >
-          Search
-        </button>
-        {/* 
-            <input value={user.name} onChange={
-                e => setUser({
-                  ...user,
-                  name: e.target.value,
-                  
-                })
-            }>
-
-             </input>
-            <input value={user.email} onChange={
-                e => setUser({
-                  ...user,
-                  email: e.target.value,
-                  
-                })
-            }>
-             </input>
- */}
-      </div>
-
-      <div className="flex flex-wrap bg-gray-100 shadow-lg ">
-        {filteredRestaurants?.map((Restaurant) => {
-          return (
-            <Link
-              to={"/Restaurant/" + Restaurant.info.id}
-              key={Restaurant.info.id}
-            >
-              <RestrauntCard {...Restaurant.info} />
-            </Link>
-          );
-        })}
-      </div>
-    </>
-  );
+	const isOnline = useOnline();
+	if (!isOnline) {
+		return (
+			<div className="offline-page">
+				<img alt="url img" src={IMG_OFFLINE_URL} />
+				<h2>Oops! You're Offline</h2>
+				<p>Please check your internet connection and try again.</p>
+			</div>
+		);
+	}
+	if (!allRestaurants) {
+		return (
+			<div className="body-box res-not-page">
+				<img src={IMG_RESTAURANT_NOT_URL} />
+				<h3 className="">Data Not Found.</h3>
+				<p>Something went wrong.</p>
+				<a href="/">
+					<button>TRY AGAIN</button>
+				</a>
+			</div>
+		);
+	}
+	if (allRestaurants[6]) {
+		return (
+			<div className="body-box unservice-page">
+				<img src={allRestaurants[6]?.imageLink} />
+				<h3 className="">{allRestaurants[6]?.title}</h3>
+				<p>We don’t have any services here till now.</p>
+				<p>Try changing location.</p>
+			</div>
+		);
+	}
+	const scrollHandler = (idx, direction) => {
+		const box = document.querySelectorAll(".topBrand")[idx];
+		if (direction == "left") {
+			box.scrollLeft += -(box.clientWidth - box.clientWidth * 0.15);
+		} else {
+			box.scrollLeft += box.clientWidth - box.clientWidth * 0.15;
+		}
+	};
+	return allRestaurants?.length == 0 ? (
+		<Shimmer />
+	) : (
+		<>
+			<div className="body-box-res body-box">
+				{allRestaurants[0] != undefined ? (
+					<div className="main-header-box">
+						<h2 className="main-card-title">
+							<span>{allRestaurants[0]?.title}</span>
+							<div className="scr-btn">
+								<span
+									onClick={(e) => {
+										scrollHandler(0, "left");
+									}}
+								>
+									<i className="fa-solid fa-arrow-left"></i>
+								</span>
+								&nbsp;&nbsp;
+								<span
+									onClick={(e) => {
+										scrollHandler(0, "right");
+									}}
+								>
+									<i className="fa-solid fa-arrow-right"></i>
+								</span>
+							</div>
+						</h2>
+						<div className="topBrand">
+							{allRestaurants[1].map((info) => {
+								return (
+									<Link
+										to={
+											"/collections/" +
+											info?.action?.link
+												?.split("=")[1]
+												?.split("&")[0]
+										}
+										key={"collections" + info?.id}
+										onClick={() => handleScrollTop()}
+									>
+										<RestaurantCollections {...info} />
+									</Link>
+								);
+							})}{" "}
+						</div>
+						<hr className="topBrandHr" />
+					</div>
+				) : null}
+				{allRestaurants[2] != undefined ? (
+					<div className="main-header-box">
+						<h2 className="main-card-title">
+							<span>{allRestaurants[2]?.title}</span>
+							<div>
+								<span
+									onClick={(e) => {
+										scrollHandler(1, "left");
+									}}
+								>
+									<i className="fa-solid fa-arrow-left"></i>
+								</span>
+								&nbsp;&nbsp;
+								<span
+									onClick={(e) => {
+										scrollHandler(1, "right");
+									}}
+								>
+									<i className="fa-solid fa-arrow-right"></i>
+								</span>
+							</div>
+						</h2>
+						<div className="topBrand">
+							{allRestaurants[3].map((restaurant) => {
+								return (
+									<Link
+										to={"/restaurant/" + restaurant.info.id}
+										key={"allres" + restaurant.info.id}
+										onClick={() => handleScrollTop()}
+									>
+										<RestaurantCard {...restaurant.info} />
+									</Link>
+								);
+							})}
+						</div>
+						<hr className="topBrandHr" />
+					</div>
+				) : null}
+				<div className="main-header-box">
+					<h2 className="main-card-title">
+						{allRestaurants[4]?.title}
+					</h2>
+					<div className="main-header-filter">
+						<Search
+							allRestaurants={allRestaurants[5]}
+							setFilteredRestaurants={setFilteredRestaurants}
+							setShowExtraData={setShowExtraData}
+						/>
+						<Filter
+							Restaurant={allRestaurants[5]}
+							setRestaurant={setFilteredRestaurants}
+							setShowExtraData={setShowExtraData}
+						/>
+					</div>
+					{filteredRestaurants?.length != 0 ? (
+						<div className="main-card">
+							{filteredRestaurants?.map((restaurant) => {
+								return (
+									<Link
+										to={
+											"/restaurant/" +
+											restaurant?.info?.id
+										}
+										key={"filter" + restaurant?.info?.id}
+										onClick={() => handleScrollTop()}
+									>
+										<RestaurantCard {...restaurant.info} />
+									</Link>
+								);
+							})}
+							{showExtraData &&
+								(!extraRestsData
+									? null
+									: extraRestsData.length == 0
+									? Array(allRestaurants[7]?.length)
+											.fill("")
+											.map((elem, idx) => {
+												return (
+													<div
+														className="shimmer card"
+														key={
+															"shimmer-menu" + idx
+														}
+													>
+														<div className="img-box img-shimmer"></div>
+														<div className="box-shimmer big-shimmer"></div>
+														<div className="box-shimmer"></div>
+														<div className="box-shimmer"></div>
+														<div className="box-shimmer"></div>
+													</div>
+												);
+											})
+									: extraRestsData?.map((restaurant) => {
+											return (
+												<Link
+													to={
+														"/restaurant/" +
+														restaurant?.info?.id
+													}
+													key={
+														"filters" +
+														restaurant?.info?.id
+													}
+													onClick={() =>
+														handleScrollTop()
+													}
+												>
+													<RestaurantCard
+														{...restaurant.info}
+													/>
+												</Link>
+											);
+									  }))}
+						</div>
+					) : (
+						<div className="body-box search-empty">
+							<p>No Restaurant Found !!</p>
+							<img src={IMG_NOT_FOUND_URL} />
+						</div>
+					)}
+				</div>
+			</div>
+		</>
+	);
 };
-
 export default Body;
