@@ -84,6 +84,7 @@ body::-webkit-scrollbar-thumb,
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    /* background-color: #f0e9db; */
     background-color: #ffffff;
     /* filter: blur(10px); */
     color: #000000;
@@ -504,7 +505,10 @@ body::-webkit-scrollbar-thumb,
 
 .body-box {
     min-height: calc(60vh - 120px);
-    background: #f2f6fc;
+    background: #ffffff;
+    /* background: #FFF8E7; */
+
+    /* background: #20C997; */
 }
 
 .search-empty {
