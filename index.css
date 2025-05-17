@@ -506,9 +506,7 @@ body::-webkit-scrollbar-thumb,
 .body-box {
     min-height: calc(60vh - 120px);
     background: #ffffff;
-    /* background: #FFF8E7; */
-
-    /* background: #20C997; */
+   
 }
 
 .search-empty {
