@@ -8,8 +8,8 @@ const Footer = () => {
       <div>
         <div className="footer-s">
           <div>
-            <h3>Food Home</h3>
-            <p>© 2024 sha</p>
+            <h3>DEV EAT</h3>
+            <p>© 2024</p>
             <p>Pvt. Ltd</p>
           </div>
           <div className="social">
@@ -18,7 +18,7 @@ const Footer = () => {
               <i></i>
               <p>
                 <a
-                  href="https://www.linkedin.com/in/akashdeep023/"
+                  href="https://www.linkedin.com/in/shanedrasingh05/"
                   target="_blank"
                 >
                   LinkedIn
@@ -28,7 +28,7 @@ const Footer = () => {
             <div>
               <i></i>
               <p>
-                <a href="https://github.com/akashdeep023" target="_blank">
+                <a href="https://github.com/ShanedraSingh05" target="_blank">
                   GitHub
                 </a>
               </p>
@@ -37,7 +37,7 @@ const Footer = () => {
               <i></i>
               <p>
                 <a
-                  href="https://www.instagram.com/mr_akashdeep_/"
+                  href="https://www.instagram.com/curptengineer"
                   target="_blank"
                 >
                   Instagram

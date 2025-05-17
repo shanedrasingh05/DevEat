@@ -4,24 +4,24 @@ class Profile extends Component {
 		super(props);
 		console.log("Class Cunstructor");
 		this.state = {
-			count: 0,
-			count2: 10,
-			userInfo: {
-				name: "Akash Deep",
-				login: "akashdeep023",
-				bio: "WEB - DEVELOPER ( MERN STACK ) | |  JAVA | PYTHON | DSA  |",
-				location: "PATNA, BIHAR",
-				html_url: "https://github.com/akashdeep023",
-				avatar_url:
-					"https://avatars.githubusercontent.com/u/126412088?v=4",
-				followers: 28,
-				following: 5,
-			},
-		};
+      count: 0,
+      count2: 10,
+      userInfo: {
+        name: "Shanedra Singh",
+        login: "ShanedraSingh89",
+        bio: "WEB - DEVELOPER ( MERN STACK ) | |  JAVA | PYTHON | DSA  |",
+        location: "DELHI, INDIA",
+        html_url: "https://github.com/ShanedraSingh89",
+        avatar_url:
+          "https://avatars.githubusercontent.com/u/115075657?s=400&u=6d7d17ab55c3dc5da26dfa44adc09830ba748397&v=4",
+        followers: 18,
+        following: 2,
+      },
+    };
 	}
 	async componentDidMount() {
 		console.log("Class ComponentDidMount");
-		const data = await fetch("https://api.github.com/users/akashdeep023");
+		const data = await fetch("https://api.github.com/users/ShanedraSingh89");
 		const json = await data.json();
 		console.log(json);
 		if (json.name) {
